@@ -13,6 +13,38 @@
 // You don't have to though: it's perfectly okay to write three separate
 // implementations manually. Venture further only if you're curious.
 
+use num_traits::{Num, Pow, PrimInt};
+
+trait Power<T: Num> {
+    type Output;
+    fn power(&self, power: T) -> Self::Output;
+}
+
+impl Power<u32> for u32 {
+    type Output = u32;
+
+    fn power(&self, power: u32) -> Self::Output {
+        self.pow(power)
+    }
+}
+
+impl Power<u16> for u32 {
+    type Output = u32;
+
+    fn power(&self, power: u16) -> Self::Output {
+        self.pow(&power)
+    }
+}
+
+// ToDo: Can not solve this problem
+impl<'a> Power<&'a u32> for u32 {
+    type Output = u32;
+
+    fn power(&self, power: &u32) -> Self::Output {
+        self.pow(*power)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Power;
