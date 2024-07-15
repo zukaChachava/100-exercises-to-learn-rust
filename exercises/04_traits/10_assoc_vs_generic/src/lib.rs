@@ -13,37 +13,52 @@
 // You don't have to though: it's perfectly okay to write three separate
 // implementations manually. Venture further only if you're curious.
 
-use num_traits::{Num, Pow, PrimInt};
+use std::ops::Mul;
+use num_traits::{Num, Pow, pow, PrimInt};
 
-trait Power<T: Num> {
+trait Power<T: Num = Self>
+where
+    Self::Output: Default + Num,
+{
     type Output;
-    fn power(&self, power: T) -> Self::Output;
-}
 
-impl Power<u32> for u32 {
-    type Output = u32;
+    fn power(&self, mut power: T) -> Self::Output {
+        let mut num = 1;
+        let mut result : Self::Output = Self::Output::default();
 
-    fn power(&self, power: u32) -> Self::Output {
-        self.pow(power)
+        while power.ne(&num) {
+            result = &result.mul(5);
+            num += 1;
+        }
+
+        return result;
     }
 }
 
-impl Power<u16> for u32 {
-    type Output = u32;
-
-    fn power(&self, power: u16) -> Self::Output {
-        self.pow(&power)
-    }
-}
+// impl Power<u32> for u32 {
+//     type Output = u32;
+//
+//     fn power(&self, power: u32) -> Self::Output {
+//         self.pow(power)
+//     }
+// }
+//
+// impl Power<u16> for u32 {
+//     type Output = u32;
+//
+//     fn power(&self, power: u16) -> Self::Output {
+//         self.pow(&power)
+//     }
+// }
 
 // ToDo: Can not solve this problem
-impl<'a> Power<&'a u32> for u32 {
-    type Output = u32;
-
-    fn power(&self, power: &u32) -> Self::Output {
-        self.pow(*power)
-    }
-}
+// impl<'a> Power<&'a u32> for u32 {
+//     type Output = u32;
+//
+//     fn power(&self, power: &u32) -> Self::Output {
+//         self.pow(*power)
+//     }
+// }
 
 #[cfg(test)]
 mod tests {
