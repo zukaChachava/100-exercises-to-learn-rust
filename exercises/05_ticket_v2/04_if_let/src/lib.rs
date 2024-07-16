@@ -7,8 +7,23 @@ enum Shape {
 impl Shape {
     // TODO: Implement the `radius` method using
     //  either an `if let` or a `let/else`.
+
+    // Variant One
     pub fn radius(&self) -> f64 {
-        todo!()
+        if let Shape::Circle {radius} = self {
+            *radius
+        } else {
+            panic!("Only circle supports radius");
+        }
+    }
+
+    // Variant Two
+    pub fn radius2(&self) -> f64 {
+        let Shape::Circle {radius} = self else {
+            panic!("Only circle supports radius");
+        };
+
+        *radius
     }
 }
 
